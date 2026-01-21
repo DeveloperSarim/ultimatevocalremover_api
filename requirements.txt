@@ -25,3 +25,10 @@ onnxruntime
 onnx
 onnx2pytorch
 ml_collections
+uvicorn
+fastapi
+torch
+torchaudio
+uvloop
+python-multipart
+uvicorn[standard]
