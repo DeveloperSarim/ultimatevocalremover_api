@@ -1,19 +1,17 @@
-# Use a valid PyTorch base image
-FROM pytorch/pytorch:2.3.1-cuda11.8-cudnn8-runtime
+# Start from an image that already has torch + torchaudio preinstalled
+FROM pytorch/pytorch:2.0.1-cuda11.8-cudnn8-runtime
 
 WORKDIR /app
 
-# Copy project files
+# Copy only requirements first to speed up build caching
+COPY requirements.txt .
+
+# Install only fastapi + uvicorn + project deps
+RUN pip install --upgrade pip && \
+    pip install -r requirements.txt
+
+# Copy app code
 COPY . .
-
-# Upgrade pip
-RUN pip install --upgrade pip
-
-# Install FastAPI, Uvicorn, and dependencies
-RUN pip install fastapi uvicorn python-multipart
-
-# Install your project as package (so internal imports work)
-RUN pip install .
 
 EXPOSE 8000
 
